@@ -1,0 +1,6 @@
+<app-card>
+  <div id="container-button">
+    <button color="primary" *appValidateActionButton="'create'" mat-button (click)="createModal()">AGREGAR</button>
+  </div>
+  <app-data-table-custom [fieldsForms]="fields" [columField]="columField" idFieldColum="id" [requestInfo]="request"/>
+</app-card>

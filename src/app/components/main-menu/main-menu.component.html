@@ -1,0 +1,18 @@
+<mat-toolbar class="mat-elevation-z3">
+  <button mat-icon-button (click)="collapsed.set(!collapsed())">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <span class="example-spacer"></span>
+  <button mat-icon-button class="example-icon" aria-label="Logout of user" (click)="closedSession()">
+    <mat-icon>logout</mat-icon>
+  </button>
+</mat-toolbar>
+<mat-sidenav-container>
+  <mat-sidenav opened mode="side" [style.width]="sidenavWidth()">
+    <app-custom-sidenav [collapsed]="collapsed()" />
+  </mat-sidenav>
+  <mat-sidenav-content class="content" [style.margin-left]="sidenavWidth()">
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

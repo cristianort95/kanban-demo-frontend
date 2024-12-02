@@ -1,0 +1,27 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" (keyup.enter)="onSubmit()">
+  <ng-container *ngFor="let field of fields(); let i=index">
+    <ng-container [ngSwitch]="field.type">
+      <div *ngSwitchCase="'image'">
+        <mat-label>{{field.label}}</mat-label>
+        <input [attr.index-custom]="'input' + i" type="file" (change)="onFileSelected(field.name, $event)">
+      </div>
+      <div *ngSwitchCase="'formGroup'" class="form-group" [formGroupName]="field.name">
+        <mat-label>{{field.label}}</mat-label>
+        <ng-container *ngFor="let option of field.optionsFormGroup">
+          <app-inputs class="form-group-container"
+            [fieldData]="option"
+            [i]="i"
+            [form]="getFormGroup(field.name)"
+            (handleKeyUpNextField)="handleKeyUp($event)"/>
+        </ng-container>
+      </div>
+      <ng-container *ngSwitchDefault>
+        <app-inputs
+          [fieldData]="field"
+          [i]="i"
+          [form]="form"
+          (handleKeyUpNextField)="handleKeyUp($event)"/>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</form>

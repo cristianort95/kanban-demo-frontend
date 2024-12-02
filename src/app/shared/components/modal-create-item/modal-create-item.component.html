@@ -1,0 +1,7 @@
+<mat-dialog-content>
+  <app-form [fieldsData]="fields()" [fieldsDataValue]="fieldsValue()" (onSubmitParent)="onSubmit($event)"/>
+  <mat-dialog-actions>
+    <button color="primary" (click)="sendSubmit()" mat-button>Guardar</button>
+    <button color="warn" mat-button mat-dialog-close>Cancel</button>
+  </mat-dialog-actions>
+</mat-dialog-content>

@@ -1,0 +1,54 @@
+
+<ng-container [formGroup]="form" *ngIf="field() as field" [ngSwitch]="field.type">
+  <mat-form-field *ngSwitchCase="'input'">
+    <mat-label>{{field.label}}</mat-label>
+    <input [attr.index-custom]="'input' + i" matInput [formControlName]="field.name">
+  </mat-form-field>
+  <mat-form-field *ngSwitchCase="'password'">
+    <mat-label>{{field.label}}</mat-label>
+    <input [attr.index-custom]="'input' + i" type="password" matInput [formControlName]="field.name">
+  </mat-form-field>
+  <mat-form-field *ngSwitchCase="'number'">
+    <mat-label>{{field.label}}</mat-label>
+    <input [attr.index-custom]="'input' + i" matInput [formControlName]="field.name" type="number">
+  </mat-form-field>
+  <mat-form-field *ngSwitchCase="'select'">
+    <mat-label>{{field.label}}</mat-label>
+    <mat-select [attr.index-custom]="'input' + i" [formControlName]="field.name" [multiple]="field.multipleSelect">
+      <mat-option *ngFor="let option of field.optionsChild" [value]="option.value">{{option.label}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <ng-container *ngSwitchCase="'selectDynamic'">
+    <mat-form-field>
+      <mat-label>{{field.label}}</mat-label>
+      <mat-select
+        [attr.index-custom]="'input' + i"
+        [formControlName]="field.name"
+        [multiple]="field.multipleSelect"
+      >
+        <mat-option *ngFor="let option of field.optionsChild" [value]="option.value">{{option.label}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="custom-input-container">
+      <mat-form-field>
+        <input
+          matInput
+          [placeholder]="field.textInputOther ?? 'Otros'"
+          (keyup.enter)="handleKeyUp($event, field.name)">
+      </mat-form-field>
+    </div>
+  </ng-container>
+  <mat-form-field *ngSwitchCase="'textarea'">
+    <mat-label>{{field.label}}</mat-label>
+    <textarea [attr.index-custom]="'input' + i" matInput [formControlName]="field.name"></textarea>
+  </mat-form-field>
+  <div *ngSwitchCase="'option'">
+    <mat-label>{{field.label}}</mat-label>
+    <mat-radio-group [attr.index-custom]="'input' + i" [formControlName]="field.name">
+      <mat-radio-button *ngFor="let option of field.optionsChild" [value]="option.value">{{option.label}}</mat-radio-button>
+    </mat-radio-group>
+  </div>
+  <div *ngSwitchCase="'check'">
+    <mat-checkbox [attr.index-custom]="'input' + i" [formControlName]="field.name">{{field.label}}</mat-checkbox>
+  </div>
+</ng-container>

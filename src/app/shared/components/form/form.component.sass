@@ -1,0 +1,36 @@
+form
+  display: flex
+  flex-direction: column
+  width: 100%
+
+
+:host
+  ::ng-deep
+    mat-form-field
+      width: 100%
+
+
+
+:host
+  ::ng-deep
+    .custom-input-container
+      z-index: 100
+      margin-top: -16px
+      mat-form-field
+        width: 100%
+      .mat-mdc-form-field-infix
+        padding: 2px !important
+        min-height: auto!important
+        height: auto !important
+        font-size: 10px
+
+.form-group
+  display: flex
+  flex-wrap: wrap
+  gap: 10px
+
+
+.form-group-container
+  flex: 1
+  min-width: 200px
+  padding: 20px

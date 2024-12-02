@@ -1,0 +1,66 @@
+<div class="parent-container">
+  <section class="table-container-section" tabindex="0" >
+    <table mat-table [dataSource]="dataSource">
+
+      <!-- Name Column -->
+      <ng-container [matColumnDef]="colum.name" [sticky]="colum.sticky" [stickyEnd]="colum.stickyEnd"  *ngFor="let colum of initColumns()">
+
+          <th mat-header-cell *matHeaderCellDef> {{colum.label}} </th>
+          <td mat-cell *matCellDef="let element">
+            <ng-container  [ngSwitch]="colum.type">
+              <ng-container *ngSwitchCase="'image'">
+                <img
+                  class="layout-element-image"
+                  appFullscreenImage
+                  [src]="hostAssets+element[colum.name]"
+                  alt="Descripción de la imagen"
+                >
+              </ng-container>
+              <ng-container *ngSwitchDefault>
+                <!--/Container CONTENT/-->
+                <ng-container *ngIf="typeOf(element[colum.name]) == 'object'">
+                  <div *ngFor="let item of element[colum.name] | keyvalue" >{{item.value}}</div>
+                </ng-container>
+                <ng-container *ngIf="typeOf(element[colum.name]) != 'object'">
+                  {{element[colum.name]}}
+                </ng-container>
+
+                <!--/BUTTONS ACTIONS/-->
+                <div class="container-actions" *ngIf="colum.name=='actionsButton'">
+                  <button *appValidateActionButton="'patch'" class="grid-item" mat-mini-fab color="primary" (click)="updateModal(element[idField()])">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+                  <ng-container *ngIf="viewReportStructure.length>0">
+                    <button *appValidateActionButton="'detail'" class="grid-item" mat-mini-fab color="warn" (click)="detail(element[idField()])">
+                      <mat-icon>description</mat-icon>
+                    </button>
+                  </ng-container>
+                  <button *appValidateActionButton="'delete'" class="grid-item" mat-mini-fab color="warn" (click)="delete(element[idField()])">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                  <ng-container *appValidateActionButton="'inspectionCreate'">
+                    <a class="grid-item" mat-mini-fab [routerLink]="getRouterLink(colum.link, element, colum.linkParams)" *ngIf="colum.link">
+                      <mat-icon>add</mat-icon>
+                    </a>
+                  </ng-container>
+                </div>
+              </ng-container>
+            </ng-container>
+          </td>
+        </ng-container>
+
+
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns(); sticky:true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns();" class="element-row"></tr>
+    </table>
+  </section>
+
+  <mat-paginator
+    [length]="totalItems"
+    [pageSize]="itemsPerPage"
+    [pageSizeOptions]="[5, 10, 25, 100]"
+    (page)="onPaginate($event)"
+  >
+  </mat-paginator>
+</div>

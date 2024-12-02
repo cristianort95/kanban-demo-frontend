@@ -1,0 +1,13 @@
+<div class="body">
+  <div class="main">
+    <div class="login">
+      <label>Iniciar Session</label>
+      <app-form class="app-form" [fieldsData]="fields" (onSubmitParent)="onSubmit($event)"/>
+      <button (click)="sendSubmit()" >Login</button>
+    </div>
+    <div class="login_bottom">
+      <label>Bienvenid&#64;</label>
+    </div>
+  </div>
+
+</div>
