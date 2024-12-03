@@ -31,7 +31,7 @@ export type MenuItem = {
     <div class="sidenav-container">
       <div>
         <div class="sidenav-header">
-          <img [width]="profilePicSize()" [height]="profilePicSize()" src="images/logo-acodihue.png"  alt="icon"/>
+          <img [width]="profilePicSize()" [height]="profilePicSize()" src="images/logo.png"  alt="icon"/>
           <div class="header-text" [class.hide-header-text]="sideNavCollapsed()">
             <h2>{{ name }}</h2>
             <p>{{ lastName }}</p>
@@ -40,7 +40,7 @@ export type MenuItem = {
         <mat-nav-list [class.hide-sidenav]="sideNavCollapsed()">
           <a
             mat-list-item
-            *ngFor="let item of filterMenu()"
+            *ngFor="let item of menuItems()"
             [routerLink]="item.route"
             routerLinkActive
             #rla="routerLinkActive"
@@ -179,11 +179,5 @@ export class CustomSidenavComponent {
 
   closedSession = () => {
     this.authService.logout()
-  }
-
-  filterMenu = () => {
-    return this.menuItems().filter(item => {
-      return validateRules("/" + item.route)
-    })
   }
 }

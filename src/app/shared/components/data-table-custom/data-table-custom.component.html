@@ -8,14 +8,6 @@
           <th mat-header-cell *matHeaderCellDef> {{colum.label}} </th>
           <td mat-cell *matCellDef="let element">
             <ng-container  [ngSwitch]="colum.type">
-              <ng-container *ngSwitchCase="'image'">
-                <img
-                  class="layout-element-image"
-                  appFullscreenImage
-                  [src]="hostAssets+element[colum.name]"
-                  alt="Descripción de la imagen"
-                >
-              </ng-container>
               <ng-container *ngSwitchDefault>
                 <!--/Container CONTENT/-->
                 <ng-container *ngIf="typeOf(element[colum.name]) == 'object'">
@@ -27,18 +19,13 @@
 
                 <!--/BUTTONS ACTIONS/-->
                 <div class="container-actions" *ngIf="colum.name=='actionsButton'">
-                  <button *appValidateActionButton="'patch'" class="grid-item" mat-mini-fab color="primary" (click)="updateModal(element[idField()])">
+                  <button class="grid-item" mat-mini-fab color="primary" (click)="updateModal(element[idField()])">
                     <mat-icon>edit</mat-icon>
                   </button>
-                  <ng-container *ngIf="viewReportStructure.length>0">
-                    <button *appValidateActionButton="'detail'" class="grid-item" mat-mini-fab color="warn" (click)="detail(element[idField()])">
-                      <mat-icon>description</mat-icon>
-                    </button>
-                  </ng-container>
-                  <button *appValidateActionButton="'delete'" class="grid-item" mat-mini-fab color="warn" (click)="delete(element[idField()])">
+                  <button class="grid-item" mat-mini-fab color="warn" (click)="delete(element[idField()])">
                     <mat-icon>delete</mat-icon>
                   </button>
-                  <ng-container *appValidateActionButton="'inspectionCreate'">
+                  <ng-container>
                     <a class="grid-item" mat-mini-fab [routerLink]="getRouterLink(colum.link, element, colum.linkParams)" *ngIf="colum.link">
                       <mat-icon>add</mat-icon>
                     </a>

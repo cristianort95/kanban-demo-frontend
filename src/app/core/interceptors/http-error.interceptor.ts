@@ -25,8 +25,8 @@ export const httpErrorInterceptor: HttpInterceptorFn = (req, next) => {
         };
       }
       if (error.status == 403) {
+        console.error("Errorrr");
         localStorage.removeItem('authToken')
-        localStorage.removeItem('role')
         window.location.reload()
       }
       return throwError(() => customError);

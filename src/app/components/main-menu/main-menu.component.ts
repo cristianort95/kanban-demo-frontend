@@ -17,8 +17,6 @@ import {AuthServiceService} from "../../core/services/AuthService";
 })
 export class MainMenuComponent {
   constructor(readonly authService: AuthServiceService) {}
-
-  title = 'txotx-quality-front';
   collapsed = signal(false)
   sidenavWidth = computed(() => this.collapsed() ? '65px' : '225px')
 

@@ -11,8 +11,8 @@ import {
   MatTable
 } from "@angular/material/table";
 import {MatIcon, MatIconModule} from "@angular/material/icon";
-import {KeyValuePipe, NgForOf, NgIf, NgOptimizedImage, NgSwitch, NgSwitchCase, NgSwitchDefault} from "@angular/common";
-import {MatButtonModule, MatIconButton} from "@angular/material/button";
+import {KeyValuePipe, NgForOf, NgIf, NgSwitch, NgSwitchDefault} from "@angular/common";
+import {MatButtonModule} from "@angular/material/button";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {ModalCreateItemComponent} from "../modal-create-item/modal-create-item.component";
 import {FormGroup} from "@angular/forms";
@@ -22,11 +22,6 @@ import {FieldsFormGroup, FieldsOptions} from "../../../core/models/FieldsFormGro
 import {NgxSpinnerService} from "ngx-spinner";
 import {HttpErrorResponse} from "@angular/common/http";
 import {RouterLink} from "@angular/router";
-import {MatFormField} from "@angular/material/form-field";
-import {FullscreenImageDirective} from "../../directives/fullscreen-image/fullscreen-image.directive";
-import {environment} from "../../../../environments/environment";
-import {ValidateActionButtonDirective} from "../../directives/validate-action-button/validate-action-button.directive";
-import {ModalReportInspectComponent} from "../modal-report-inspect/modal-report-inspect.component";
 import {FieldsFormValues} from "../../../core/models/FieldsFormValues";
 
 @Component({
@@ -35,10 +30,9 @@ import {FieldsFormValues} from "../../../core/models/FieldsFormValues";
   imports: [
     MatPaginator, MatTable, MatIcon, MatCell, MatColumnDef, MatHeaderCell, MatHeaderRow,
     MatRow, MatHeaderRowDef, MatCellDef, MatHeaderCellDef, MatRowDef,
-    MatIconModule, MatButtonModule, MatFormField,
+    MatIconModule, MatButtonModule,
     NgForOf, NgIf, KeyValuePipe, RouterLink,
-    NgSwitchCase, NgSwitch, NgSwitchDefault, NgOptimizedImage,
-    FullscreenImageDirective, ValidateActionButtonDirective
+    NgSwitch, NgSwitchDefault,
   ],
   templateUrl: './data-table-custom.component.html',
   styleUrl: './data-table-custom.component.sass'
@@ -84,7 +78,6 @@ export class DataTableCustomComponent implements OnInit {
   dataSource = [
   ];
   dialogUpdate?: MatDialogRef<ModalCreateItemComponent>
-  hostAssets = environment.HOST_ASSETS_BACKEND
 
   constructor(
     readonly service: CrudService,
@@ -154,22 +147,6 @@ export class DataTableCustomComponent implements OnInit {
         this.spinner.hide('delete').then()
       })
     }
-  }
-
-  detail=async (id: string) => {
-    await this.spinner.show('get').then()
-    this.service.get(`${this.urlGet}/${id}`).subscribe((response: any) => {
-      this.dialog.open(ModalReportInspectComponent, {
-        height: "calc(100% - 30px)",
-        width: '90%',
-        maxWidth: "100%",
-        maxHeight: "100%",
-        data: {fields: this.viewReportStructure, fieldsValue: response.data}
-      })
-      this.spinner.hide('get').then()
-    }, (error: HttpErrorResponse) => {
-      this.spinner.hide('get').then();
-    });
   }
 
   typeOf(value: any) {

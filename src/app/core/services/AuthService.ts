@@ -20,7 +20,6 @@ export class AuthServiceService {
       const decoded: any = jwtDecode(jwt);
       if (jwt && decoded) {
         localStorage.setItem('authToken', jwt)
-        localStorage.setItem('role', decoded.role ?? null)
         result.next(true)
       } else result.next(false)
     }, (error: HttpErrorResponse) => {
@@ -31,7 +30,6 @@ export class AuthServiceService {
 
   logout() {
     localStorage.removeItem('authToken')
-    localStorage.removeItem('role')
     window.location.reload()
   }
 }

@@ -12,9 +12,6 @@ import {ModalCreateItemComponent} from "../../shared/components/modal-create-ite
 import {CrudService} from "../../core/services/CrudService";
 import {NgxSpinnerService} from "ngx-spinner";
 import {HttpErrorResponse} from "@angular/common/http";
-import {
-  ValidateActionButtonDirective
-} from "../../shared/directives/validate-action-button/validate-action-button.directive";
 
 @Component({
   selector: 'app-users',
@@ -22,8 +19,7 @@ import {
   imports: [
     CardComponent,
     DataTableCustomComponent,
-    MatButton,
-    ValidateActionButtonDirective
+    MatButton
   ],
   templateUrl: './users.component.html',
   styleUrl: './users.component.sass'

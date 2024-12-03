@@ -18,6 +18,6 @@ export const appConfig: ApplicationConfig = {
       withInterceptors([
         authInterceptor, httpErrorInterceptor
       ])
-    )
+    ), provideAnimationsAsync()
   ]
 };

@@ -14,10 +14,10 @@ import {Router} from "@angular/router";
   imports: [
     FormComponent
   ],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.sass'
+  templateUrl: './register.component.html',
+  styleUrl: './register.component.sass'
 })
-export class LoginComponent {
+export class RegisterComponent {
   @ViewChild(FormComponent) child!: FormComponent
   constructor(
     readonly service: AuthServiceService,
