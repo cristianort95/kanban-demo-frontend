@@ -1,11 +1,12 @@
 <div class="body">
   <div class="main">
     <div class="login">
-      <label>Iniciar Session</label>
+      <label>Registrate</label>
       <app-form class="app-form" [fieldsData]="fields" (onSubmitParent)="onSubmit($event)"/>
-      <button (click)="sendSubmit()" >Login</button>
+      <button (click)="sendSubmit()" >Crear</button>
     </div>
     <div class="login_bottom">
+      <a href="/login">Inicia Sesion</a>
       <label>Bienvenid&#64;</label>
     </div>
   </div>
