@@ -8,13 +8,20 @@ import {NgxSpinnerService} from "ngx-spinner";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ToastrService} from "ngx-toastr";
 import {ActivatedRoute, Router} from "@angular/router";
-import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
+import {
+  CdkDrag,
+  CdkDragDrop,
+  CdkDragPlaceholder,
+  CdkDropList,
+  moveItemInArray,
+  transferArrayItem
+} from "@angular/cdk/drag-drop";
 
 @Component({
   selector: 'app-users',
   standalone: true,
   imports: [
-    CdkDropList, CdkDrag, CardComponent, MatButton
+    CdkDropList, CdkDrag, CardComponent, MatButton, CdkDragPlaceholder
   ],
   templateUrl: './projects.component.html',
   styleUrl: './projects.component.sass'

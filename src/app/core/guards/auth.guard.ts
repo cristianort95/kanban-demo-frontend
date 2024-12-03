@@ -12,5 +12,5 @@ export const authGuard: CanActivateFn = (route: ActivatedRouteSnapshot, state: R
 };
 
 export const validateRules = (): boolean => {
-  return !!localStorage!.getItem('authToken');
+  return !!localStorage?.getItem('authToken');
 }
