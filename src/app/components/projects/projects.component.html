@@ -1,0 +1,56 @@
+<app-card>
+  <div id="container-button">
+    <button color="primary" mat-button (click)="removeProject()">ELIMINAR</button>
+  </div>
+
+
+  <div class="container-task">
+    <div class="example-container">
+      <h2>To do</h2>
+      <div
+        cdkDropList
+        #todoList="cdkDropList"
+        [cdkDropListData]="todo"
+        [cdkDropListConnectedTo]="[doneList, qaList]"
+        class="example-list"
+        (cdkDropListDropped)="drop($event)">
+        @for (item of todo; track item) {
+          <div class="example-box" cdkDrag>{{item}}</div>
+        }
+      </div>
+    </div>
+
+
+    <div class="example-container">
+      <h2>QA</h2>
+      <div
+        cdkDropList
+        #qaList="cdkDropList"
+        [cdkDropListData]="qa"
+        [cdkDropListConnectedTo]="[todoList, doneList]"
+        class="example-list"
+        (cdkDropListDropped)="drop($event)">
+        @for (item of qa; track item) {
+          <div class="example-box" cdkDrag>{{item}}</div>
+        }
+      </div>
+    </div>
+
+    <div class="example-container">
+      <h2>Done</h2>
+
+      <div
+        cdkDropList
+        #doneList="cdkDropList"
+        [cdkDropListData]="done"
+        [cdkDropListConnectedTo]="[todoList, qaList]"
+        class="example-list"
+        (cdkDropListDropped)="drop($event)">
+        @for (item of done; track item) {
+          <div class="example-box" cdkDrag>{{item}}</div>
+        }
+      </div>
+    </div>
+  </div>
+
+</app-card>

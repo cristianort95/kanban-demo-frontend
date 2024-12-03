@@ -46,7 +46,6 @@ export type MenuItem = {
     NgIf,
     RouterLink,
     RouterLinkActive,
-    MatFabButton
   ],
   template: `
     <div class="sidenav-container">
@@ -235,7 +234,7 @@ export class CustomSidenavComponent implements OnInit {
         return {
           icon:"work",
           label:item.project.name,
-          route:"projects/"+item.projectId,
+          route:"project/"+item.projectId,
           id:item.projectId,
         }
       })
@@ -245,19 +244,6 @@ export class CustomSidenavComponent implements OnInit {
       this.spinner.hide('getProject').then()
     });
   }
-
-  removeProject(id: number) {
-    this.spinner.show("deleteProject").then()
-    this.service.delete(`${PROJECT}/${id}`).subscribe((response: any) => {
-
-      this.spinner.hide('deleteProject').then()
-      this.toastr.success("Proyecto Eliminado!");
-    }, (error: HttpErrorResponse) => {
-      this.toastr.error("Error intente de nuevo o revise los datos relacionados al proyecto!");
-      this.spinner.hide('deleteProject').then()
-    });
-  }
-
 
   async createModal() {
     this.dialogUpdate = this.dialog.open(ModalCreateItemComponent, {
