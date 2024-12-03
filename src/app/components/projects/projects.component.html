@@ -1,59 +1,64 @@
 <app-card>
   <div id="container-button">
-    <button color="primary" mat-button (click)="removeProject()">ELIMINAR</button>
+    <button color="primary" mat-button (click)="addTeam()"><mat-icon>groups</mat-icon></button>
+    <button color="primary" mat-button (click)="addTask()"><mat-icon>add_task</mat-icon></button>
+    <button color="primary" mat-button (click)="removeProject()"><mat-icon>delete_forever</mat-icon></button>
   </div>
 
 
   <div class="container-task">
     <div class="status-flow-container">
-      <h2>To do</h2>
+      <h2>Por hacer</h2>
       <div
+        id="toDo"
         cdkDropList
-        #todoList="cdkDropList"
-        [cdkDropListData]="todo"
-        [cdkDropListConnectedTo]="[doneList, qaList]"
+        #toDoList="cdkDropList"
+        [cdkDropListData]="toDo"
+        [cdkDropListConnectedTo]="[doneList, inProgressList]"
         class="task-list"
         (cdkDropListDropped)="drop($event)">
-        @for (item of todo; track item) {
+        @for (item of toDo; track item) {
           <div class="task-card" cdkDrag>
             <div class="task-card-placeholder" *cdkDragPlaceholder></div>
-            {{item}}
+            {{item.name}}
           </div>
         }
       </div>
     </div>
 
     <div class="status-flow-container">
-      <h2>QA</h2>
+      <h2>En Progreso</h2>
       <div
+        id="inProgress"
         cdkDropList
-        #qaList="cdkDropList"
-        [cdkDropListData]="qa"
-        [cdkDropListConnectedTo]="[todoList, doneList]"
+        #inProgressList="cdkDropList"
+        [cdkDropListData]="inProgress"
+        [cdkDropListConnectedTo]="[toDoList, doneList]"
         class="task-list"
         (cdkDropListDropped)="drop($event)">
-        @for (item of qa; track item) {
+        @for (item of inProgress; track item) {
           <div class="task-card" cdkDrag>
             <div class="task-card-placeholder" *cdkDragPlaceholder></div>
-            {{item}}
+            {{item.name}}
           </div>
         }
       </div>
     </div>
 
     <div class="status-flow-container">
-      <h2>Done</h2>
+      <h2>Finalizada</h2>
       <div
+        id="done"
         cdkDropList
         #doneList="cdkDropList"
         [cdkDropListData]="done"
-        [cdkDropListConnectedTo]="[todoList, qaList]"
+        [cdkDropListConnectedTo]="[toDoList, inProgressList]"
         class="task-list"
         (cdkDropListDropped)="drop($event)">
         @for (item of done; track item) {
           <div class="task-card" cdkDrag>
             <div class="task-card-placeholder" *cdkDragPlaceholder></div>
-            {{item}}
+            {{item.name}}
           </div>
         }
       </div>
