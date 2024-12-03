@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {CardComponent} from "../../shared/components/card/card.component";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {PROJECT, TASK} from "../../core/endpoints";
@@ -21,17 +21,18 @@ import {FormGroup, Validators} from "@angular/forms";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {FieldsFormGroup} from "../../core/models/FieldsFormGroup";
 import { Task } from '../../core/models/Task';
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-users',
   standalone: true,
   imports: [
-    CdkDropList, CdkDrag, CardComponent, MatButton, CdkDragPlaceholder, MatIcon, MatIconButton
+    CdkDropList, CdkDrag, CardComponent, MatButton, CdkDragPlaceholder, MatIcon, NgIf
   ],
   templateUrl: './projects.component.html',
   styleUrl: './projects.component.sass'
 })
-export class ProjectsComponent {
+export class ProjectsComponent implements OnInit {
   dialogUpdate?: MatDialogRef<ModalCreateItemComponent>
   constructor(
     readonly toastr: ToastrService,
@@ -41,7 +42,8 @@ export class ProjectsComponent {
     readonly router: Router,
     readonly dialog: MatDialog,
   ) {}
-  id = this.route.snapshot.paramMap.get('projectId');
+  projectId = this.route.snapshot.paramMap.get('projectId');
+  roleId = this.route.snapshot.paramMap.get('roleId');
   fields: FieldsFormGroup[] = [
     {name: "name", label: "Nombre", type: "input", validator: [Validators.required]},
     {name: "description", label: "Descripcion", type: "input", validator: [Validators.required]},
@@ -57,12 +59,19 @@ export class ProjectsComponent {
   done : Task[] = [];
 
   ngOnInit(): void {
-    this.getTasks().then()
+    this.route.params.subscribe((params: any) => {
+        this.projectId = params.projectId;
+        this.roleId = params.roleId;
+        this.getTasks().then()
+    });
   }
 
   async getTasks() {
-    this.spinner.show("getProject").then()
-    this.service.get(`${TASK}/${this.id}?limit=200&page=1&relations=project&project=name,description`).subscribe((response: any) => {
+    this.toDo = []
+    this.inProgress = []
+    this.done = []
+    this.spinner.show("get").then()
+    this.service.get(`${TASK}/${this.projectId}?limit=200&page=1&relations=project&project=name,description`).subscribe((response: any) => {
       const data = response.data.forEach((item: Task) => {
         if (item.status == "toDo") {
           this.toDo.push(item)
@@ -72,9 +81,9 @@ export class ProjectsComponent {
           this.done.push(item)
         }
       })
-      this.spinner.hide('getProject').then()
+      this.spinner.hide('get').then()
     }, (error: HttpErrorResponse) => {
-      this.spinner.hide('getProject').then()
+      this.spinner.hide('get').then()
     });
   }
 
@@ -88,8 +97,6 @@ export class ProjectsComponent {
         event.previousIndex,
         event.currentIndex,
       );
-      console.log("DATA", event.container.data[event.currentIndex]);
-      console.log("DATA", event.container.id);
       this.statusTask(
         event.container.data[event.currentIndex].id,
         event.container.id
@@ -98,15 +105,15 @@ export class ProjectsComponent {
   }
 
   removeProject() {
-    this.spinner.show("deleteProject").then()
-    this.service.delete(`${PROJECT}/${this.id}`).subscribe((response: any) => {
+    this.spinner.show("delete").then()
+    this.service.delete(`${PROJECT}/${this.roleId}`).subscribe((response: any) => {
 
-      this.spinner.hide('deleteProject').then()
+      this.spinner.hide('delete').then()
       this.toastr.success("Proyecto Eliminado!");
-      this.router.navigate(['/']).then();
+      this.router.navigate(['/']).then(() => window.location.reload());
     }, (error: HttpErrorResponse) => {
       this.toastr.error("Error intente de nuevo o revise los datos relacionados al proyecto!");
-      this.spinner.hide('deleteProject').then()
+      this.spinner.hide('delete').then()
     });
   }
 
@@ -117,13 +124,13 @@ export class ProjectsComponent {
     })
     this.dialogUpdate.afterClosed().subscribe((result: FormGroup) => {
       if (result) {
-        this.spinner.show("create")
-        this.service.post(`${TASK}/${this.id}`, result.value).subscribe((response: any) => {
-          this.spinner.hide("create")
+        this.spinner.show("create").then()
+        this.service.post(`${TASK}/${this.projectId}`, result.value).subscribe((response: any) => {
+          this.spinner.hide("create").then()
           this.getTasks().then()
           this.toastr.success("Tarea Agregada");
         }, (error: HttpErrorResponse) => {
-          this.spinner.hide("create")
+          this.spinner.hide("create").then()
         })
       }
     })
@@ -131,7 +138,7 @@ export class ProjectsComponent {
 
   async statusTask(task: number, status: string) {
     this.spinner.show("update").then()
-    this.service.patch(`${TASK}/${this.id}/${task}`, {status}).subscribe((response: any) => {
+    this.service.patch(`${TASK}/${this.projectId}/${task}`, {status}).subscribe((response: any) => {
       this.spinner.hide("update").then()
       this.toastr.success("Tarea Actualizada");
     }, (error: HttpErrorResponse) => {

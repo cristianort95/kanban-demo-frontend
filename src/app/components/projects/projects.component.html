@@ -1,8 +1,10 @@
 <app-card>
   <div id="container-button">
+    <!--
     <button color="primary" mat-button (click)="addTeam()"><mat-icon>groups</mat-icon></button>
+    -->
     <button color="primary" mat-button (click)="addTask()"><mat-icon>add_task</mat-icon></button>
-    <button color="primary" mat-button (click)="removeProject()"><mat-icon>delete_forever</mat-icon></button>
+    <button *ngIf="roleId" color="primary" mat-button (click)="removeProject()"><mat-icon>delete_forever</mat-icon></button>
   </div>
 
 
@@ -20,7 +22,10 @@
         @for (item of toDo; track item) {
           <div class="task-card" cdkDrag>
             <div class="task-card-placeholder" *cdkDragPlaceholder></div>
-            {{item.name}}
+            <div class="task-card-body">
+              <h3>{{item.name}}</h3>
+              <h5>{{item.description}}</h5>
+            </div>
           </div>
         }
       </div>
@@ -39,7 +44,10 @@
         @for (item of inProgress; track item) {
           <div class="task-card" cdkDrag>
             <div class="task-card-placeholder" *cdkDragPlaceholder></div>
-            {{item.name}}
+            <div class="task-card-body">
+              <h3>{{item.name}}</h3>
+              <h5>{{item.description}}</h5>
+            </div>
           </div>
         }
       </div>
@@ -58,7 +66,10 @@
         @for (item of done; track item) {
           <div class="task-card" cdkDrag>
             <div class="task-card-placeholder" *cdkDragPlaceholder></div>
-            {{item.name}}
+            <div class="task-card-body">
+              <h3>{{item.name}}</h3>
+              <h5>{{item.description}}</h5>
+            </div>
           </div>
         }
       </div>

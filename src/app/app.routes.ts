@@ -10,11 +10,15 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       {
+        path: 'project/:projectId/:roleId',
+        loadComponent: () => import('./components/projects/projects.component').then(m => m.ProjectsComponent),
+      },
+      {
         path: 'project/:projectId',
         loadComponent: () => import('./components/projects/projects.component').then(m => m.ProjectsComponent),
       },
       {
-        path: 'project/:projectId/user',
+        path: 'project/:projectId/:roleId/user',
         loadComponent: () => import('./components/users/users.component').then(m => m.UsersComponent),
       }
     ]

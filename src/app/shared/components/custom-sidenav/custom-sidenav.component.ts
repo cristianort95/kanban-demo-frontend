@@ -228,20 +228,20 @@ export class CustomSidenavComponent implements OnInit {
   }
 
   async getProjects() {
-    this.spinner.show("getProject").then()
+    this.spinner.show("get").then()
     this.service.get(PROJECT+"?limit=200&page=1&relations=project&project=name,description").subscribe((response: any) => {
       const data = response.data.map((item: any) => {
         return {
           icon:"work",
           label:item.project.name,
-          route:"project/"+item.projectId,
+          route: item.role === "admin" ? `project/${item.projectId}/${item.id}` : "project/"+item.projectId,
           id:item.projectId,
         }
       })
       this.menuItems.set(data)
-      this.spinner.hide('getProject').then()
+      this.spinner.hide('get').then()
     }, (error: HttpErrorResponse) => {
-      this.spinner.hide('getProject').then()
+      this.spinner.hide('get').then()
     });
   }
 
@@ -252,13 +252,13 @@ export class CustomSidenavComponent implements OnInit {
     })
     this.dialogUpdate.afterClosed().subscribe((result: FormGroup) => {
       if (result) {
-        this.spinner.show("create")
+        this.spinner.show("create").then()
         this.service.post(PROJECT, result.value).subscribe((response: any) => {
-          this.spinner.hide("create")
+          this.spinner.hide("create").then()
           this.getProjects().then()
           this.toastr.success("Proyecto Creado!");
         }, (error: HttpErrorResponse) => {
-          this.spinner.hide("create")
+          this.spinner.hide("create").then()
         })
       }
     })
