@@ -1,12 +1,11 @@
 import {Component, ViewChild} from '@angular/core';
 import {FormComponent} from "../../shared/components/form/form.component";
 import {FieldsFormGroup} from "../../core/models/FieldsFormGroup";
-import {FormGroup, Validators} from "@angular/forms";
-import {LOGIN} from "../../core/endpoints";
-import {HttpErrorResponse} from "@angular/common/http";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {NgxSpinnerService} from "ngx-spinner";
 import {AuthServiceService} from "../../core/services/AuthService";
 import {Router} from "@angular/router";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-login',
@@ -23,6 +22,7 @@ export class LoginComponent {
     readonly service: AuthServiceService,
     readonly spinner: NgxSpinnerService,
     readonly router: Router,
+    readonly toastr: ToastrService,
   ) {
     if (typeof window !== 'undefined') {
       const isAuthenticated = localStorage.getItem('authToken');
@@ -52,8 +52,10 @@ export class LoginComponent {
               form.reset()
               this.spinner.hide("create").then()
               this.router.navigate(["/"]);
-            } else
+            } else {
               this.spinner.hide("create").then()
+              this.toastr.error("Credenciales incorrectas");
+            }
           }
         )
     }

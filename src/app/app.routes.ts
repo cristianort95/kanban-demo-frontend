@@ -6,8 +6,8 @@ export const routes: Routes = [
   {
     path: '',
     component: MainMenuComponent,
-    canActivate: [authGuard],
     canActivateChild: [authGuard],
+    canActivate: [authGuard],
     children: [
       {
         path: 'users',

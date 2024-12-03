@@ -1,11 +1,6 @@
 import {HttpErrorResponse, HttpInterceptorFn} from '@angular/common/http';
 import {catchError, throwError} from "rxjs";
-
-interface ErrorHttpCustom {
-  statusCode: number;
-  message: string;
-  data: any;
-}
+import {ErrorHttpCustom} from "../models/ErrorHttpCustom";
 
 export const httpErrorInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req).pipe(

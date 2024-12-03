@@ -11,10 +11,10 @@ import {jwtDecode} from "jwt-decode";
 export class AuthServiceService {
   constructor(private service: CrudService) {}
 
-  login(username: string, password: string): Observable<boolean> {
+  login(email: string, password: string): Observable<boolean> {
     const result = new Subject<boolean>();
     this.service.post(LOGIN, {
-      username, password
+      email, password
     }).subscribe((response: any) => {
       const jwt = response.jwt
       const decoded: any = jwtDecode(jwt);

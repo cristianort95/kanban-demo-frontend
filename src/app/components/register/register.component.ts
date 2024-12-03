@@ -8,6 +8,8 @@ import {NgxSpinnerService} from "ngx-spinner";
 import {AuthServiceService} from "../../core/services/AuthService";
 import {Router} from "@angular/router";
 import {CrudService} from "../../core/services/CrudService";
+import {ToastrService} from "ngx-toastr";
+import {ErrorHttpCustom} from "../../core/models/ErrorHttpCustom";
 
 @Component({
   selector: 'app-login',
@@ -24,6 +26,7 @@ export class RegisterComponent {
     readonly crud: CrudService,
     readonly spinner: NgxSpinnerService,
     readonly router: Router,
+    readonly toastr: ToastrService
   ) {
     if (typeof window !== 'undefined') {
       const isAuthenticated = localStorage.getItem('authToken');
@@ -50,9 +53,11 @@ export class RegisterComponent {
     if (form.valid) {
       this.spinner.show("create")
       this.crud.post(REGISTER, form.value).subscribe((response: any) => {
-        this.spinner.hide("create")
+        this.spinner.hide("create");
+        this.toastr.success("Registro agregado!");
         form.reset()
-      }, (error: HttpErrorResponse) => {
+      }, (error: ErrorHttpCustom) => {
+        this.toastr.error(error.data.message ?? "Valide los datos o intente con un correo distinto");
         this.spinner.hide("create")
       })
     }

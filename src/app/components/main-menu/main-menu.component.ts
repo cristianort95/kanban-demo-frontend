@@ -1,4 +1,4 @@
-import {Component, computed, signal} from '@angular/core';
+import {Component, computed, OnInit, signal} from '@angular/core';
 import {CustomSidenavComponent} from "../../shared/components/custom-sidenav/custom-sidenav.component";
 import {MatIcon} from "@angular/material/icon";
 import {MatIconButton} from "@angular/material/button";
@@ -15,12 +15,16 @@ import {AuthServiceService} from "../../core/services/AuthService";
   templateUrl: './main-menu.component.html',
   styleUrl: './main-menu.component.sass'
 })
-export class MainMenuComponent {
+export class MainMenuComponent implements OnInit {
   constructor(readonly authService: AuthServiceService) {}
   collapsed = signal(false)
   sidenavWidth = computed(() => this.collapsed() ? '65px' : '225px')
 
   closedSession = () => {
     this.authService.logout()
+  }
+
+  ngOnInit() {
+    console.log('MainMenuComponent cargado.');
   }
 }
