@@ -17,5 +17,6 @@ export type FieldsFormGroup = {
   optionsChildUrl?: {
     url: string,
     keysOfValue: string[]
+    idField?: string,
   };
 }

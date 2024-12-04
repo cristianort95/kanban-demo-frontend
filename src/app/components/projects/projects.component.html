@@ -1,8 +1,6 @@
 <app-card>
   <div id="container-button">
-    <!--
-    <button color="primary" mat-button (click)="addTeam()"><mat-icon>groups</mat-icon></button>
-    -->
+    <button *ngIf="roleId" color="primary" mat-button [routerLink]="'user'"><mat-icon>groups</mat-icon></button>
     <button color="primary" mat-button (click)="addTask()"><mat-icon>add_task</mat-icon></button>
     <button *ngIf="roleId" color="primary" mat-button (click)="removeProject()"><mat-icon>delete_forever</mat-icon></button>
   </div>

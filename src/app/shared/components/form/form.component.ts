@@ -33,8 +33,8 @@ import {InputsComponent} from "../inputs/inputs.component";
   styleUrl: './form.component.sass'
 })
 export class FormComponent implements OnInit {
-  @Input() set fieldsData(value: FieldsFormGroup[]) {this.loadDataOptions(value).then()}
-  @Input() set fieldsDataValue(value: FieldsOptions[]) {this.fieldsValue.set(value ?? [])}
+  @Input() set fieldsDataValue(value: FieldsOptions[]) {this.fieldsValue.set(value ?? []);}
+  @Input() set fieldsData(value: FieldsFormGroup[]) { this.loadDataOptions(value).then()}
   @Output() onSubmitParent = new EventEmitter<FormGroup>();
   fields= signal<FieldsFormGroup[]>([])
   fieldsValue= signal<FieldsOptions[]>([])
@@ -61,7 +61,7 @@ export class FormComponent implements OnInit {
             optionsChildUrl.keysOfValue.forEach((keys: any) => {
               label += (data[keys] + " -")
             })
-            return { value: data.id, label: label }
+            return { value: data[optionsChildUrl.idField ?? "id"], label: label }
           });
           fieldsOptions.push({...d[i], optionsChild})
         } else fieldsOptions.push(d[i])

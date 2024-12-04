@@ -1,12 +1,12 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {CardComponent} from "../../shared/components/card/card.component";
 import {MatButton, MatIconButton} from "@angular/material/button";
-import {PROJECT, TASK} from "../../core/endpoints";
+import {PROJECT, TASK, TEAMS} from "../../core/endpoints";
 import {CrudService} from "../../core/services/CrudService";
 import {NgxSpinnerService} from "ngx-spinner";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ToastrService} from "ngx-toastr";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {
   CdkDrag,
   CdkDragDrop,
@@ -27,7 +27,7 @@ import {NgIf} from "@angular/common";
   selector: 'app-users',
   standalone: true,
   imports: [
-    CdkDropList, CdkDrag, CardComponent, MatButton, CdkDragPlaceholder, MatIcon, NgIf
+    CdkDropList, CdkDrag, CardComponent, MatButton, CdkDragPlaceholder, MatIcon, NgIf, RouterLink
   ],
   templateUrl: './projects.component.html',
   styleUrl: './projects.component.sass'
@@ -51,7 +51,11 @@ export class ProjectsComponent implements OnInit {
         {label: "Por hacer", value: "toDo"},
         {label: "En Progreso", value: "inProgress"},
         {label: "Finalizada", value: "done"}
-      ]},
+      ]
+    },
+    {name: "userId", label: "Usuario", type: "select", validator: [Validators.required], optionsChildUrl: {
+      url: TEAMS+"/"+this.projectId, keysOfValue: ["userId", "role"], idField: "userId"
+    }}
   ]
 
   toDo: Task[] = [];
@@ -145,9 +149,5 @@ export class ProjectsComponent implements OnInit {
       this.toastr.success("Error");
       this.spinner.hide("update").then()
     })
-  }
-
-  addTeam() {
-
   }
 }

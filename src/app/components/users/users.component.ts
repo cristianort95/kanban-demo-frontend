@@ -6,12 +6,13 @@ import {FieldsFormGroup} from "../../core/models/FieldsFormGroup";
 import {FormGroup, Validators} from "@angular/forms";
 import {ColumField} from "../../core/models/ColumField";
 import {RequestUrlScheme} from "../../core/models/RequestUrlScheme";
-import {ASSOCIATION, USERS} from "../../core/endpoints";
+import {TEAMS} from "../../core/endpoints";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {ModalCreateItemComponent} from "../../shared/components/modal-create-item/modal-create-item.component";
 import {CrudService} from "../../core/services/CrudService";
 import {NgxSpinnerService} from "ngx-spinner";
 import {HttpErrorResponse} from "@angular/common/http";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-users',
@@ -26,44 +27,29 @@ import {HttpErrorResponse} from "@angular/common/http";
 })
 export class UsersComponent {
   @ViewChild(DataTableCustomComponent) childDataTable!: DataTableCustomComponent
+  dialogUpdate?: MatDialogRef<ModalCreateItemComponent>
+  projectId = this.route.snapshot.paramMap.get('projectId');
   fields: FieldsFormGroup[] = [
-    {name: "username", label: "User", type: "input", validator: [Validators.required]},
-    {name: "password", label: "Contraseña", type: "password", validator: [Validators.required]},
-    {name: "name", label: "Nombre", type: "input", validator: [Validators.required]},
-    {name: "lastName", label: "Apellido", type: "input", validator: [Validators.required]},
-    {name: "role", label: "Rol", type: "select", validator: [Validators.required], optionsChild: [{label: "Inspector", value: "inspector"},{label: "Socio", value: "partner"}]},
-    {name: "phone", label: "Telefono", type: "input", validator: [Validators.required]},
-    {name: "department", label: "Departamento", type: "input", validator: [Validators.required]},
-    {name: "municipality", label: "Municipio", type: "input", validator: [Validators.required]},
-    {name: "address", label: "Direccion", type: "input", validator: [Validators.required]},
-    {name: "organizationId", label: "Organizacion", type: "select", validator: [], optionsChildUrl: {url: ASSOCIATION, keysOfValue: ["code", "name"]}}
+    { name: "userId", label: "Email", type: "input", validator: [Validators.required]},
+    { name: "role", label: "Rol", type: "input", validator: [Validators.required]},
   ]
   columField: ColumField[] = [
-    { name: "username", label: "User", sticky: true },
-    { name: "name", label: "Nombre", sticky: false },
-    { name: "lastName", label: "Apellido", sticky: false },
+    { name: "user", label: "User", sticky: true },
     { name: "role", label: "Rol", sticky: false },
-    { name: "phone", label: "Telefono", sticky: false },
-    { name: "department", label: "Departamento", sticky: false },
-    { name: "municipality", label: "Municipio", sticky: false },
-    { name: "address", label: "Direccion", sticky: false },
-    { name: "createdAt", label: "Creacion", sticky: false },
-    { name: "updatedAt", label: "Actualizacion", sticky: false },
-    { name: "organization", label: "Organizacion", sticky: false },
     { name: "actionsButton", label: "Acciones", stickyEnd: true }
   ]
   request: RequestUrlScheme = {
-    urlGet: USERS,
-    urlGetAll: USERS+"?limit=${limit}&offset=${page}&relations=organization&organization=code,name",
-    urlUpdate: USERS,
-    urlDelete: USERS,
+    urlGet: TEAMS+"/"+this.projectId,
+    urlGetAll: TEAMS+"/"+this.projectId+"?limit=${limit}&offset=${page}&relations=user&user=email,name",
+    urlUpdate: TEAMS+"/"+this.projectId,
+    urlDelete: TEAMS+"/"+this.projectId,
     itemsPerPage: 20,
   }
-  dialogUpdate?: MatDialogRef<ModalCreateItemComponent>
   constructor(
     readonly dialog: MatDialog,
     readonly service: CrudService,
     readonly spinner: NgxSpinnerService,
+    readonly route: ActivatedRoute,
   ) {}
 
   async createModal() {
@@ -76,7 +62,7 @@ export class UsersComponent {
       if (result) {
         dt.pageNumber = 0;
         this.spinner.show("create")
-        this.service.post(USERS, result.value).subscribe((response: any) => {
+        this.service.post(TEAMS+"/"+this.projectId, result.value).subscribe((response: any) => {
           this.spinner.hide("create")
           dt.getData(dt.pageNumber, dt.itemsPerPage);
         }, (error: HttpErrorResponse) => {

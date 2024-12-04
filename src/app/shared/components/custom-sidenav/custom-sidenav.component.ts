@@ -8,23 +8,19 @@ import {
   MatNavList
 } from "@angular/material/list";
 import {NgForOf, NgIf} from "@angular/common";
-import {MatIcon, MatIconRegistry} from "@angular/material/icon";
-import {Router, RouterLink, RouterLinkActive} from "@angular/router";
+import {MatIcon} from "@angular/material/icon";
+import {RouterLink, RouterLinkActive} from "@angular/router";
 import {AuthServiceService} from "../../../core/services/AuthService";
-import {validateRules} from "../../../core/guards/auth.guard";
 import {jwtDecode} from "jwt-decode";
 import {CrudService} from "../../../core/services/CrudService";
 import {HttpErrorResponse} from "@angular/common/http";
 import {NgxSpinnerService} from "ngx-spinner";
-import {ASSOCIATION, PROJECT, USERS} from "../../../core/endpoints";
+import {PROJECT} from "../../../core/endpoints";
 import {ToastrService} from "ngx-toastr";
-import {MatFormField, MatLabel} from "@angular/material/form-field";
-import {MatInput} from "@angular/material/input";
 import {ModalCreateItemComponent} from "../modal-create-item/modal-create-item.component";
 import {FormGroup, Validators} from "@angular/forms";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {FieldsFormGroup} from "../../../core/models/FieldsFormGroup";
-import {MatButton, MatFabButton} from "@angular/material/button";
 
 export type MenuItem = {
   icon: string;
