@@ -13,6 +13,8 @@ import {CrudService} from "../../core/services/CrudService";
 import {NgxSpinnerService} from "ngx-spinner";
 import {HttpErrorResponse} from "@angular/common/http";
 import {ActivatedRoute, Router} from "@angular/router";
+import {ToastrService} from "ngx-toastr";
+import {ErrorHttpCustom} from "../../core/models/ErrorHttpCustom";
 
 @Component({
   selector: 'app-users',
@@ -50,6 +52,7 @@ export class UsersComponent {
     readonly service: CrudService,
     readonly spinner: NgxSpinnerService,
     readonly route: ActivatedRoute,
+    readonly toastr: ToastrService,
   ) {}
 
   async createModal() {
@@ -65,7 +68,9 @@ export class UsersComponent {
         this.service.post(TEAMS+"/"+this.projectId, result.value).subscribe((response: any) => {
           this.spinner.hide("create")
           dt.getData(dt.pageNumber, dt.itemsPerPage);
-        }, (error: HttpErrorResponse) => {
+          this.toastr.success("Usuario agregado!");
+        }, (error: ErrorHttpCustom) => {
+          this.toastr.error("Error: Verifique que el usuario ya se encuentre registrado");
           this.spinner.hide("create")
         })
       }

@@ -23,6 +23,8 @@ import {NgxSpinnerService} from "ngx-spinner";
 import {HttpErrorResponse} from "@angular/common/http";
 import {RouterLink} from "@angular/router";
 import {FieldsFormValues} from "../../../core/models/FieldsFormValues";
+import {ToastrService} from "ngx-toastr";
+import {ErrorHttpCustom} from "../../../core/models/ErrorHttpCustom";
 
 @Component({
   selector: 'app-data-table-custom',
@@ -83,6 +85,7 @@ export class DataTableCustomComponent implements OnInit {
     readonly service: CrudService,
     readonly dialog: MatDialog,
     readonly spinner: NgxSpinnerService,
+    readonly toastr: ToastrService,
   ) {
     this.spinner.show('get').then()
   }
@@ -127,7 +130,9 @@ export class DataTableCustomComponent implements OnInit {
           this.service.patch(`${this.urlUpdate}/${id}`, result.value, this.isMultiPart).subscribe((data: any) => {
             this.spinner.hide('update').then()
             this.getData(this.pageNumber, this.itemsPerPage);
-          }, (error: HttpErrorResponse) => {
+            this.toastr.success("Registros Actualizado!");
+          }, (error: ErrorHttpCustom) => {
+            this.toastr.error("Error!");
             this.spinner.hide('update').then()
           })
         }
@@ -143,7 +148,9 @@ export class DataTableCustomComponent implements OnInit {
       this.service.delete(`${this.urlDelete}/${id}`).subscribe((data: any) => {
         this.spinner.hide('delete').then()
         this.getData(this.pageNumber, this.itemsPerPage);
+        this.toastr.success("Agregado!");
       }, (error: HttpErrorResponse) => {
+        this.toastr.error("Error!");
         this.spinner.hide('delete').then()
       })
     }
