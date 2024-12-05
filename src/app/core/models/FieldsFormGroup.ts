@@ -4,6 +4,12 @@ export type FieldsOptions = {
   label: string;
   value: any;
 }
+export type FieldsComments = {
+  id: number;
+  projectId: number;
+  label: string;
+  comment: string;
+}
 
 export type FieldsFormGroup = {
   label: string;

@@ -25,11 +25,12 @@ import {MatChip} from "@angular/material/chips";
 import {InputsComponent} from "../inputs/inputs.component";
 
 @Component({
-    selector: 'app-form',
-    imports: [MatFormFieldModule, MatInputModule, MatSelectModule, ReactiveFormsModule, NgForOf, NgSwitch, NgSwitchCase, InputsComponent, NgSwitchDefault],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    templateUrl: './form.component.html',
-    styleUrl: './form.component.sass'
+  selector: 'app-form',
+  imports: [MatFormFieldModule, MatInputModule, MatSelectModule, ReactiveFormsModule, NgForOf, NgSwitch, NgSwitchCase, InputsComponent, NgSwitchDefault],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  templateUrl: './form.component.html',
+  standalone: true,
+  styleUrl: './form.component.sass'
 })
 export class FormComponent implements OnInit {
   @Input() set fieldsDataValue(value: FieldsOptions[]) {this.fieldsValue.set(value ?? []);}

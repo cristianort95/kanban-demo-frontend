@@ -19,7 +19,7 @@ import {MatIcon} from "@angular/material/icon";
 import {ModalCreateItemComponent} from "../../shared/components/modal-create-item/modal-create-item.component";
 import {FormGroup, Validators} from "@angular/forms";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {FieldsFormGroup, FieldsOptions} from "../../core/models/FieldsFormGroup";
+import {FieldsComments, FieldsFormGroup, FieldsOptions} from "../../core/models/FieldsFormGroup";
 import { Task } from '../../core/models/Task';
 import {NgIf} from "@angular/common";
 import {ErrorHttpCustom} from "../../core/models/ErrorHttpCustom";
@@ -148,12 +148,18 @@ export class ProjectsComponent implements OnInit {
     await this.spinner.show('create')
     this.service.get(`${TASK}/${this.projectId}/${id}`).subscribe((data: any) => {
       const fieldsValue: FieldsOptions[] = []
+      const fieldsComments: FieldsComments[] = []
       Object.keys(data?.data).forEach((key:string)=>{
+        if (key=="comment") {
+          data?.data[key].forEach((item:any)=>{
+            fieldsComments.push(item)
+          })
+        }
         fieldsValue.push({label:key,'value':data?.data[key]});
       });
       this.dialogUpdate = this.dialog.open(ModalCardComponent, {
         width: '90%',
-        data: {fieldsForm: this.fields, fieldsValue, urlDelete: `${TASK}/${this.projectId}/${id}`}
+        data: {fieldsForm: this.fields, fieldsValue, fieldsComments, urlDelete: `${TASK}/${this.projectId}/${id}`}
       })
       this.dialogUpdate.afterClosed().subscribe((result: { form?: FormGroup, delete?: boolean }) => {
         if (result?.form) {
