@@ -2,17 +2,19 @@
   <div id="container-button">
     <button mat-mini-fab color="accent" (click)="remove()"><mat-icon>delete_forever</mat-icon></button>
   </div>
-  <mat-dialog-content>
+  <div>
     <app-form [fieldsDataValue]="fieldsValue()" [fieldsData]="fields()" (onSubmitParent)="onSubmit($event)"/>
     <ng-container *ngIf="fieldsComments()">
       <h4>Comentarios:</h4>
       <div *ngFor="let comment of fieldsComments()">
+        <app-comment [itemValue]="comment" [urlRequest]="urlComment.urlGet"></app-comment>
+
         <mat-form-field class="example-full-width">
           <textarea matInput placeholder="Escribe un comentario">{{comment.comment}}</textarea>
         </mat-form-field>
       </div>
     </ng-container>
-  </mat-dialog-content>
+  </div>
   <mat-dialog-actions>
     <button color="primary" (click)="sendSubmit()" mat-button>Guardar</button>
     <button color="warn" mat-button mat-dialog-close>Cancel</button>

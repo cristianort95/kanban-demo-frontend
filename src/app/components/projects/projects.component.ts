@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {CardComponent} from "../../shared/components/card/card.component";
 import {MatButton, MatIconButton} from "@angular/material/button";
-import {PROJECT, TASK, TEAMS} from "../../core/endpoints";
+import {COMMENTS, PROJECT, TASK, TEAMS} from "../../core/endpoints";
 import {CrudService} from "../../core/services/CrudService";
 import {NgxSpinnerService} from "ngx-spinner";
 import {HttpErrorResponse} from "@angular/common/http";
@@ -25,14 +25,16 @@ import {NgIf} from "@angular/common";
 import {ErrorHttpCustom} from "../../core/models/ErrorHttpCustom";
 import {ModalCardComponent} from "../../shared/components/modal-car/modal-card.component";
 import {map} from "rxjs";
+import {RequestUrlScheme} from "../../core/models/RequestUrlScheme";
 
 @Component({
-    selector: 'app-users',
-    imports: [
-        CdkDropList, CdkDrag, CardComponent, MatButton, CdkDragPlaceholder, MatIcon, NgIf, RouterLink
-    ],
-    templateUrl: './projects.component.html',
-    styleUrl: './projects.component.sass'
+  selector: 'app-users',
+  imports: [
+    CdkDropList, CdkDrag, CardComponent, MatButton, CdkDragPlaceholder, MatIcon, NgIf, RouterLink
+  ],
+  templateUrl: './projects.component.html',
+  standalone: true,
+  styleUrl: './projects.component.sass'
 })
 export class ProjectsComponent implements OnInit {
   dialogUpdate?: MatDialogRef<ModalCreateItemComponent>
@@ -59,6 +61,14 @@ export class ProjectsComponent implements OnInit {
       url: TEAMS+"/"+this.projectId, keysOfValue: ["userId", "role"], idField: "userId"
     }}
   ]
+
+  request: RequestUrlScheme = {
+    urlGet: COMMENTS+"/"+this.projectId,
+    urlGetAll: COMMENTS+"/"+this.projectId,
+    urlUpdate: COMMENTS+"/"+this.projectId,
+    urlDelete: COMMENTS+"/"+this.projectId,
+    itemsPerPage: 20,
+  }
 
   toDo: Task[] = [];
   inProgress: Task[] = [];
@@ -159,7 +169,7 @@ export class ProjectsComponent implements OnInit {
       });
       this.dialogUpdate = this.dialog.open(ModalCardComponent, {
         width: '90%',
-        data: {fieldsForm: this.fields, fieldsValue, fieldsComments, urlDelete: `${TASK}/${this.projectId}/${id}`}
+        data: {fieldsForm: this.fields, fieldsValue, fieldsComments, urlDelete: `${TASK}/${this.projectId}/${id}`, urlComment: this.request}
       })
       this.dialogUpdate.afterClosed().subscribe((result: { form?: FormGroup, delete?: boolean }) => {
         if (result?.form) {

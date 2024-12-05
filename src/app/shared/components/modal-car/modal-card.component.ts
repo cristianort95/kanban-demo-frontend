@@ -10,6 +10,8 @@ import {MatIcon} from "@angular/material/icon";
 import {NgForOf, NgIf} from "@angular/common";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
+import {RequestUrlScheme} from "../../../core/models/RequestUrlScheme";
+import {CommentComponent} from "../../../components/comment/comment.component";
 
 @Component({
   selector: 'app-modal-card',
@@ -22,7 +24,7 @@ import {MatInput} from "@angular/material/input";
     NgForOf,
     MatFormField,
     MatInput,
-    MatLabel
+    CommentComponent
   ],
   templateUrl: './modal-card.component.html',
   standalone: true,
@@ -34,6 +36,7 @@ export class ModalCardComponent {
   fieldsValue = signal<FieldsOptions[]>([])
   fieldsComments = signal<FieldsComments[]>([])
   urlDelete = signal<String>("")
+  urlComment: RequestUrlScheme
   @ViewChild(FormComponent) child!: FormComponent
 
   constructor(
@@ -42,9 +45,10 @@ export class ModalCardComponent {
   ) {
     this.fields.set(data.fieldsForm)
     this.fieldsValue.set(data.fieldsValue)
-    console.log(data.fieldsComments)
     this.fieldsComments.set(data.fieldsComments)
     this.urlDelete.set(data.urlDelete)
+    this.urlComment = this.data.urlComment
+    console.log(this.urlComment)
   }
 
   sendSubmit() {

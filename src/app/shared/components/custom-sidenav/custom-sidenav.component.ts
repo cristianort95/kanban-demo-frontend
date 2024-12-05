@@ -160,7 +160,6 @@ export type MenuItem = {
     &::-webkit-scrollbar-thumb
       background: gray
       border-radius: 50px
-
     &::-webkit-scrollbar-track
       background-color: black
       border-radius: 50px

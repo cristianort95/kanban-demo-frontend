@@ -9,12 +9,13 @@ import {RouterOutlet} from "@angular/router";
         MatCardContent,
     ],
     template: `
-    <mat-card appearance="outlined">
-      <mat-card-content>
-        <ng-content></ng-content>
-      </mat-card-content>
-    </mat-card>
-  `,
+        <mat-card appearance="outlined">
+            <mat-card-content>
+                <ng-content></ng-content>
+            </mat-card-content>
+        </mat-card>
+    `,
+    standalone: true,
     styles: `
     mat-card
       box-sizing: border-box
