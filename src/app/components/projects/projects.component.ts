@@ -19,9 +19,12 @@ import {MatIcon} from "@angular/material/icon";
 import {ModalCreateItemComponent} from "../../shared/components/modal-create-item/modal-create-item.component";
 import {FormGroup, Validators} from "@angular/forms";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {FieldsFormGroup} from "../../core/models/FieldsFormGroup";
+import {FieldsFormGroup, FieldsOptions} from "../../core/models/FieldsFormGroup";
 import { Task } from '../../core/models/Task';
 import {NgIf} from "@angular/common";
+import {ErrorHttpCustom} from "../../core/models/ErrorHttpCustom";
+import {ModalCardComponent} from "../../shared/components/modal-car/modal-card.component";
+import {map} from "rxjs";
 
 @Component({
     selector: 'app-users',
@@ -74,7 +77,7 @@ export class ProjectsComponent implements OnInit {
     this.inProgress = []
     this.done = []
     this.spinner.show("get").then()
-    this.service.get(`${TASK}/${this.projectId}?limit=200&page=1&relations=project&project=name,description`).subscribe((response: any) => {
+    return this.service.get(`${TASK}/${this.projectId}?limit=200&page=1&relations=project&project=name,description`).subscribe((response: any) => {
       const data = response.data.forEach((item: Task) => {
         if (item.status == "toDo") {
           this.toDo.push(item)
@@ -108,16 +111,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   removeProject() {
-    this.spinner.show("delete").then()
-    this.service.delete(`${PROJECT}/${this.roleId}`).subscribe((response: any) => {
-
-      this.spinner.hide('delete').then()
-      this.toastr.success("Proyecto Eliminado!");
-      this.router.navigate(['/']).then(() => window.location.reload());
-    }, (error: HttpErrorResponse) => {
-      this.toastr.error("Error intente de nuevo o revise los datos relacionados al proyecto!");
-      this.spinner.hide('delete').then()
-    });
+    this.delete(PROJECT, String(this.roleId)).then()
   }
 
   addTask() {
@@ -140,13 +134,57 @@ export class ProjectsComponent implements OnInit {
   }
 
   async statusTask(task: number, status: string) {
-    this.spinner.show("update").then()
-    this.service.patch(`${TASK}/${this.projectId}/${task}`, {status}).subscribe((response: any) => {
-      this.spinner.hide("update").then()
+    await this.spinner.show("update")
+    return this.service.patch(`${TASK}/${this.projectId}/${task}`, {status}).subscribe((response: any) => {
       this.toastr.success("Tarea Actualizada");
     }, (error: HttpErrorResponse) => {
       this.toastr.success("Error");
+    }, () => {
       this.spinner.hide("update").then()
     })
+  }
+
+  async detail(id: number) {
+    await this.spinner.show('create')
+    this.service.get(`${TASK}/${this.projectId}/${id}`).subscribe((data: any) => {
+      const fieldsValue: FieldsOptions[] = []
+      Object.keys(data?.data).forEach((key:string)=>{
+        fieldsValue.push({label:key,'value':data?.data[key]});
+      });
+      this.dialogUpdate = this.dialog.open(ModalCardComponent, {
+        width: '90%',
+        data: {fieldsForm: this.fields, fieldsValue, urlDelete: `${TASK}/${this.projectId}/${id}`}
+      })
+      this.dialogUpdate.afterClosed().subscribe((result: { form?: FormGroup, delete?: boolean }) => {
+        if (result?.form) {
+          this.spinner.show('update').then()
+          this.service.patch(`${TASK}/${this.projectId}/${id}`, result.form.value).subscribe((data: any) => {
+            this.getTasks().then()
+            this.toastr.success("Tarea Actualizado!");
+          }, (error: ErrorHttpCustom) => {
+            this.toastr.error("Error!");
+          }, ()=> {this.delay(500).then(() => {this.spinner.hide('update').then()})})
+        } else if (result?.delete) {
+          this.spinner.show("job-delete").then()
+          this.delete(`${TASK}/${this.projectId}`, data?.data.id, false).then(() => {
+            this.delay(500).then(() => {this.getTasks().then()})
+          }).finally(() => this.delay(500).then(() => {this.spinner.hide("job-delete").then()}))
+        }
+      })
+    }, (error: HttpErrorResponse) => {
+    }, () => {this.spinner.hide('create').then()});
+  }
+
+  async delete(url: string, id: string, isProject: boolean = true) {
+    return this.service.delete(`${url}/${id}`).subscribe((response: any) => {
+      this.toastr.success("Proyecto Eliminado!");
+      isProject ? this.router.navigate(['/']).then(() => window.location.reload()) : () => {};
+    }, (error: HttpErrorResponse) => {
+      this.toastr.error("Error intente de nuevo o revise los datos relacionados al proyecto!");
+    });
+  }
+
+  async delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
   }
 }

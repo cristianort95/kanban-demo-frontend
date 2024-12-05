@@ -1,4 +1,7 @@
 <mat-dialog-content>
+  <div id="container-button">
+    <button mat-mini-fab color="accent" (click)="remove()"><mat-icon>delete_forever</mat-icon></button>
+  </div>
   <app-form [fieldsDataValue]="fieldsValue()" [fieldsData]="fields()" (onSubmitParent)="onSubmit($event)"/>
   <mat-dialog-actions>
     <button color="primary" (click)="sendSubmit()" mat-button>Guardar</button>

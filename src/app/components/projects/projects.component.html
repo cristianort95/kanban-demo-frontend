@@ -18,7 +18,7 @@
         class="task-list"
         (cdkDropListDropped)="drop($event)">
         @for (item of toDo; track item) {
-          <div class="task-card" cdkDrag>
+          <div class="task-card" (click)="detail(item.id)" cdkDrag>
             <div class="task-card-placeholder" *cdkDragPlaceholder></div>
             <div class="task-card-body">
               <h3>{{item.name}}</h3>
@@ -40,7 +40,7 @@
         class="task-list"
         (cdkDropListDropped)="drop($event)">
         @for (item of inProgress; track item) {
-          <div class="task-card" cdkDrag>
+          <div class="task-card" (click)="detail(item.id)" cdkDrag>
             <div class="task-card-placeholder" *cdkDragPlaceholder></div>
             <div class="task-card-body">
               <h3>{{item.name}}</h3>
@@ -62,7 +62,7 @@
         class="task-list"
         (cdkDropListDropped)="drop($event)">
         @for (item of done; track item) {
-          <div class="task-card" cdkDrag>
+          <div class="task-card" (click)="detail(item.id)" cdkDrag>
             <div class="task-card-placeholder" *cdkDragPlaceholder></div>
             <div class="task-card-body">
               <h3>{{item.name}}</h3>
