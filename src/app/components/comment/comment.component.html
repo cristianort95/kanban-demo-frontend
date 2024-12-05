@@ -1,9 +1,19 @@
 <div class="NgxEditor__Wrapper">
-  <ngx-editor-menu [editor]="editor" [toolbar]="toolbar" [customMenuRef]="customMenu">
-  </ngx-editor-menu>
-  <ngx-editor [editor]="editor" [formControl]="form.controls.editorContent">
-  </ngx-editor>
+  <ng-container *ngIf="disabledComponent()">
+    <ngx-editor [editor]="editor" [disabled]="false" [formControl]="form.controls.editorContent"/>
+  </ng-container>
+  <ng-container *ngIf="!disabledComponent()">
+    <ngx-editor-menu [editor]="editor" [toolbar]="toolbar" [customMenuRef]="customMenu"/>
+    <ngx-editor [editor]="editor" [disabled]="disabled" [formControl]="form.controls.editorContent"/>
+  </ng-container>
 </div>
 <ng-template #customMenu>
-  <app-custom-menu [editor]="editor"></app-custom-menu>
+  <app-custom-menu
+    [itemValue]="item()"
+    [editor]="editor"
+    [isButtonDisable]="disabled"
+    (onButtonDisable)="onDisable($event)"
+    (onUpdate)="onUpdate($event)"
+    (onCreate)="onCreate($event)"
+  ></app-custom-menu>
 </ng-template>

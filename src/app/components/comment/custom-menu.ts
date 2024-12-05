@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, signal} from '@angular/core';
 import { EditorState, Transaction } from 'prosemirror-state';
 import { EditorView } from 'prosemirror-view';
 import { setBlockType } from 'prosemirror-commands';
@@ -8,18 +8,28 @@ import { Editor } from 'ngx-editor';
 import { isNodeActive } from 'ngx-editor/helpers';
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatIcon} from "@angular/material/icon";
+import {FormGroup} from "@angular/forms";
+import {FieldsComments} from "../../core/models/FieldsFormGroup";
 
 @Component({
   selector: 'app-custom-menu',
   standalone: true,
   imports: [CommonModule, MatButton, MatIcon, MatIconButton],
   template: `
-  <div class="NgxEditor__Seperator"></div>
-  <div class="NgxEditor__MenuItem NgxEditor__MenuItem--Text" (mousedown)="onClick($event)"
-    [ngClass]="{'NgxEditor__MenuItem--Active': isActive, 'NgxEditor--Disabled': isDisabled}">
-    CodeMirror
-  </div>
-  <button color="primary" mat-icon-button aria-label="Example icon button with a vertical three dot icon" ><mat-icon>delete_forever</mat-icon></button>
+    <div class="NgxEditor__Seperator"></div>
+    <div
+      class="NgxEditor__MenuItem NgxEditor__MenuItem--Text"
+      (mousedown)="onClick($event)"
+      [ngClass]="{'NgxEditor__MenuItem--Active': isActive, 'NgxEditor--Disabled': isDisabled}"
+    >
+      CodeMirror
+    </div>
+
+    <div *ngIf="item()" class="NgxEditor__Seperator"></div>
+    <button *ngIf="item()" color="primary" mat-icon-button aria-label="Delete" (click)="updateItem(item()!.id)" ><mat-icon>save</mat-icon></button>
+
+    <div *ngIf="!item()" class="NgxEditor__Seperator"></div>
+    <button *ngIf="!item()" color="primary" mat-icon-button aria-label="Delete" (click)="createItem()" ><mat-icon>save</mat-icon></button>
   `,
   styles: [`
     :host
@@ -28,8 +38,13 @@ import {MatIcon} from "@angular/material/icon";
 })
 export class CustomMenuComponent implements OnInit {
   constructor() {}
-
   @Input() editor!: Editor;
+  @Output() onButtonDisable = new EventEmitter<boolean>();
+  @Output() onUpdate = new EventEmitter<number>();
+  @Output() onCreate = new EventEmitter<boolean>();
+  @Input() isButtonDisable: boolean = false;
+  @Input() set itemValue(value: FieldsComments | undefined) {this.item.set(value)}
+  item = signal<FieldsComments | undefined>(undefined)
   isActive = false;
   isDisabled = false;
 
@@ -37,6 +52,15 @@ export class CustomMenuComponent implements OnInit {
     e.preventDefault();
     const { state, dispatch } = this.editor.view;
     this.execute(state, dispatch);
+    this.editor.view.editable = false
+  }
+
+  createItem() {
+    this.onCreate.emit(true);
+  }
+
+  updateItem(id: number) {
+    this.onUpdate.emit(id);
   }
 
   execute(state: EditorState, dispatch?: (tr: Transaction) => void): boolean {

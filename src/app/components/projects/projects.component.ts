@@ -169,7 +169,13 @@ export class ProjectsComponent implements OnInit {
       });
       this.dialogUpdate = this.dialog.open(ModalCardComponent, {
         width: '90%',
-        data: {fieldsForm: this.fields, fieldsValue, fieldsComments, urlDelete: `${TASK}/${this.projectId}/${id}`, urlComment: this.request}
+        data: {
+          fieldsForm: this.fields,
+          fieldsValue, fieldsComments,
+          urlDelete: `${TASK}/${this.projectId}/${id}`,
+          urlComment: this.request,
+          id
+        }
       })
       this.dialogUpdate.afterClosed().subscribe((result: { form?: FormGroup, delete?: boolean }) => {
         if (result?.form) {

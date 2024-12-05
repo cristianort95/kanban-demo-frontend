@@ -4,7 +4,7 @@ import {FormComponent} from "../form/form.component";
 import {MatButtonModule} from "@angular/material/button";
 import {FormGroup} from "@angular/forms";
 import {FieldsComments, FieldsFormGroup, FieldsOptions} from "../../../core/models/FieldsFormGroup";
-import {PROJECT} from "../../../core/endpoints";
+import {PROJECT, TASK} from "../../../core/endpoints";
 import {HttpErrorResponse} from "@angular/common/http";
 import {MatIcon} from "@angular/material/icon";
 import {NgForOf, NgIf} from "@angular/common";
@@ -12,6 +12,12 @@ import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {RequestUrlScheme} from "../../../core/models/RequestUrlScheme";
 import {CommentComponent} from "../../../components/comment/comment.component";
+import {AuthServiceService} from "../../../core/services/AuthService";
+import {NgxSpinnerService} from "ngx-spinner";
+import {Router} from "@angular/router";
+import {ToastrService} from "ngx-toastr";
+import {CrudService} from "../../../core/services/CrudService";
+import {ErrorHttpCustom} from "../../../core/models/ErrorHttpCustom";
 
 @Component({
   selector: 'app-modal-card',
@@ -37,18 +43,22 @@ export class ModalCardComponent {
   fieldsComments = signal<FieldsComments[]>([])
   urlDelete = signal<String>("")
   urlComment: RequestUrlScheme
+  id: string
   @ViewChild(FormComponent) child!: FormComponent
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public dialogRef: MatDialogRef<ModalCardComponent>
+    public dialogRef: MatDialogRef<ModalCardComponent>,
+    readonly service: CrudService,
+    readonly spinner: NgxSpinnerService,
+    readonly toastr: ToastrService,
   ) {
     this.fields.set(data.fieldsForm)
     this.fieldsValue.set(data.fieldsValue)
     this.fieldsComments.set(data.fieldsComments)
     this.urlDelete.set(data.urlDelete)
     this.urlComment = this.data.urlComment
-    console.log(this.urlComment)
+    this.id = this.data.id
   }
 
   sendSubmit() {
@@ -67,6 +77,18 @@ export class ModalCardComponent {
       else
         this.dialogRef.close()
     }
+  }
+
+  async deleteItem(id: number) {
+    await this.spinner.show("job-delete").then()
+    this.service.delete(`${this.urlComment.urlGet}/${this.id}/${id}`).subscribe((response: any) => {
+      this.toastr.success("Comentario Eliminado!");
+      this.spinner.hide("job-delete").then()
+      window.location.reload()
+    }, (error: ErrorHttpCustom) => {
+      this.toastr.error("Error intente de nuevo!");
+      this.spinner.hide("job-delete").then()
+    });
   }
 
   remove() {

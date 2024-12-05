@@ -9,6 +9,7 @@ export type FieldsComments = {
   projectId: number;
   label: string;
   comment: string;
+  userId: string;
 }
 
 export type FieldsFormGroup = {
