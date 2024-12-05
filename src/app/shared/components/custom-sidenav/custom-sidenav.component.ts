@@ -30,20 +30,19 @@ export type MenuItem = {
 }
 
 @Component({
-  selector: 'app-custom-sidenav',
-  standalone: true,
-  imports: [
-    MatNavList,
-    MatListItem,
-    NgForOf,
-    MatIcon,
-    MatListItemTitle,
-    MatListItemIcon,
-    NgIf,
-    RouterLink,
-    RouterLinkActive,
-  ],
-  template: `
+    selector: 'app-custom-sidenav',
+    imports: [
+        MatNavList,
+        MatListItem,
+        NgForOf,
+        MatIcon,
+        MatListItemTitle,
+        MatListItemIcon,
+        NgIf,
+        RouterLink,
+        RouterLinkActive,
+    ],
+    template: `
     <div class="sidenav-container">
       <div class="sidenav-header">
         <img [width]="profilePicSize()" [height]="profilePicSize()" src="images/logo.png"  alt="icon"/>
@@ -116,8 +115,8 @@ export type MenuItem = {
     </div>
 
   `,
-  styles: [
-    `
+    styles: [
+        `
     :host *
       transition: all 500ms ease-in-out
 
@@ -182,7 +181,7 @@ export type MenuItem = {
   .selected-menu-item
     border-color: var(--primary-color)
     `
-  ]
+    ]
 })
 export class CustomSidenavComponent implements OnInit {
   name = ''

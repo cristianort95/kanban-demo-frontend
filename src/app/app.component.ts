@@ -3,14 +3,13 @@ import { RouterOutlet } from '@angular/router';
 import {NgxSpinnerComponent} from "ngx-spinner";
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  templateUrl: './app.component.html',
-  imports: [
-    RouterOutlet,
-    NgxSpinnerComponent
-  ],
-  styleUrl: './app.component.sass'
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    imports: [
+        RouterOutlet,
+        NgxSpinnerComponent
+    ],
+    styleUrl: './app.component.sass'
 })
 export class AppComponent {
 }

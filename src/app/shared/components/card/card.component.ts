@@ -3,21 +3,19 @@ import {MatCard, MatCardContent} from "@angular/material/card";
 import {RouterOutlet} from "@angular/router";
 
 @Component({
-  selector: 'app-card',
-  standalone: true,
-  imports: [
-    MatCard,
-    MatCardContent,
-    RouterOutlet
-  ],
-  template: `
+    selector: 'app-card',
+    imports: [
+        MatCard,
+        MatCardContent,
+    ],
+    template: `
     <mat-card appearance="outlined">
       <mat-card-content>
         <ng-content></ng-content>
       </mat-card-content>
     </mat-card>
   `,
-  styles: `
+    styles: `
     mat-card
       box-sizing: border-box
       overflow: hidden

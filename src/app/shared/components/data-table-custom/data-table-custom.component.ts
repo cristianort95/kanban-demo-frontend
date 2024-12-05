@@ -27,17 +27,16 @@ import {ToastrService} from "ngx-toastr";
 import {ErrorHttpCustom} from "../../../core/models/ErrorHttpCustom";
 
 @Component({
-  selector: 'app-data-table-custom',
-  standalone: true,
-  imports: [
-    MatPaginator, MatTable, MatIcon, MatCell, MatColumnDef, MatHeaderCell, MatHeaderRow,
-    MatRow, MatHeaderRowDef, MatCellDef, MatHeaderCellDef, MatRowDef,
-    MatIconModule, MatButtonModule,
-    NgForOf, NgIf, KeyValuePipe, RouterLink,
-    NgSwitch, NgSwitchDefault,
-  ],
-  templateUrl: './data-table-custom.component.html',
-  styleUrl: './data-table-custom.component.sass'
+    selector: 'app-data-table-custom',
+    imports: [
+        MatPaginator, MatTable, MatIcon, MatCell, MatColumnDef, MatHeaderCell, MatHeaderRow,
+        MatRow, MatHeaderRowDef, MatCellDef, MatHeaderCellDef, MatRowDef,
+        MatIconModule, MatButtonModule,
+        NgForOf, NgIf, KeyValuePipe, RouterLink,
+        NgSwitch, NgSwitchDefault,
+    ],
+    templateUrl: './data-table-custom.component.html',
+    styleUrl: './data-table-custom.component.sass'
 })
 export class DataTableCustomComponent implements OnInit {
   initColumns = signal<ColumField[]>([])

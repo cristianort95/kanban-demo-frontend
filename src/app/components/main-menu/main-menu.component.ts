@@ -8,11 +8,10 @@ import {RouterOutlet} from "@angular/router";
 import {AuthServiceService} from "../../core/services/AuthService";
 
 @Component({
-  selector: 'app-main-menu',
-  standalone: true,
-  imports: [RouterOutlet, MatToolbar, MatIcon, MatSidenavModule, MatIconButton, CustomSidenavComponent],
-  templateUrl: './main-menu.component.html',
-  styleUrl: './main-menu.component.sass'
+    selector: 'app-main-menu',
+    imports: [RouterOutlet, MatToolbar, MatIcon, MatSidenavModule, MatIconButton, CustomSidenavComponent],
+    templateUrl: './main-menu.component.html',
+    styleUrl: './main-menu.component.sass'
 })
 export class MainMenuComponent {
   constructor(readonly authService: AuthServiceService) {}

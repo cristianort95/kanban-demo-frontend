@@ -6,16 +6,16 @@ import {FormGroup} from "@angular/forms";
 import {FieldsFormGroup, FieldsOptions} from "../../../core/models/FieldsFormGroup";
 
 @Component({
-    selector: 'app-modal-create-item',
+    selector: 'app-modal-card',
     imports: [
         MatDialogModule,
         MatButtonModule,
         FormComponent
     ],
-    templateUrl: './modal-create-item.component.html',
-    styleUrl: './modal-create-item.component.sass'
+    templateUrl: './modal-card.component.html',
+    styleUrl: './modal-card.component.sass'
 })
-export class ModalCreateItemComponent {
+export class ModalCardComponent {
 
   fields = signal<FieldsFormGroup[]>([])
   fieldsValue = signal<FieldsOptions[]>([])
@@ -23,7 +23,7 @@ export class ModalCreateItemComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    public dialogRef: MatDialogRef<ModalCreateItemComponent>
+    public dialogRef: MatDialogRef<ModalCardComponent>
   ) {
     this.fields.set(data.fieldsForm ?? data)
     this.fieldsValue.set(data.fieldsValue)

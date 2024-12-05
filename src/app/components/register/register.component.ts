@@ -12,13 +12,12 @@ import {ToastrService} from "ngx-toastr";
 import {ErrorHttpCustom} from "../../core/models/ErrorHttpCustom";
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [
-    FormComponent
-  ],
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.sass'
+    selector: 'app-login',
+    imports: [
+        FormComponent
+    ],
+    templateUrl: './register.component.html',
+    styleUrl: './register.component.sass'
 })
 export class RegisterComponent {
   @ViewChild(FormComponent) child!: FormComponent

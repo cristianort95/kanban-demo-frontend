@@ -10,25 +10,24 @@ import {FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {FieldsFormGroup, FieldsOptions} from "../../../core/models/FieldsFormGroup";
 
 @Component({
-  selector: 'app-inputs',
-  standalone: true,
-  imports: [
-    MatCheckbox,
-    MatFormField,
-    MatInput,
-    MatLabel,
-    MatOption,
-    MatRadioButton,
-    MatRadioGroup,
-    MatSelect,
-    NgForOf,
-    NgSwitchCase,
-    ReactiveFormsModule,
-    NgSwitch,
-    NgIf
-  ],
-  templateUrl: './inputs.component.html',
-  styleUrl: './inputs.component.sass'
+    selector: 'app-inputs',
+    imports: [
+        MatCheckbox,
+        MatFormField,
+        MatInput,
+        MatLabel,
+        MatOption,
+        MatRadioButton,
+        MatRadioGroup,
+        MatSelect,
+        NgForOf,
+        NgSwitchCase,
+        ReactiveFormsModule,
+        NgSwitch,
+        NgIf
+    ],
+    templateUrl: './inputs.component.html',
+    styleUrl: './inputs.component.sass'
 })
 export class InputsComponent {
   @Input() i!: number;

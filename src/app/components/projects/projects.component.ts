@@ -24,13 +24,12 @@ import { Task } from '../../core/models/Task';
 import {NgIf} from "@angular/common";
 
 @Component({
-  selector: 'app-users',
-  standalone: true,
-  imports: [
-    CdkDropList, CdkDrag, CardComponent, MatButton, CdkDragPlaceholder, MatIcon, NgIf, RouterLink
-  ],
-  templateUrl: './projects.component.html',
-  styleUrl: './projects.component.sass'
+    selector: 'app-users',
+    imports: [
+        CdkDropList, CdkDrag, CardComponent, MatButton, CdkDragPlaceholder, MatIcon, NgIf, RouterLink
+    ],
+    templateUrl: './projects.component.html',
+    styleUrl: './projects.component.sass'
 })
 export class ProjectsComponent implements OnInit {
   dialogUpdate?: MatDialogRef<ModalCreateItemComponent>

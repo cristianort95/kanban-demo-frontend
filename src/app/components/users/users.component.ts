@@ -17,15 +17,14 @@ import {ToastrService} from "ngx-toastr";
 import {ErrorHttpCustom} from "../../core/models/ErrorHttpCustom";
 
 @Component({
-  selector: 'app-users',
-  standalone: true,
-  imports: [
-    CardComponent,
-    DataTableCustomComponent,
-    MatButton
-  ],
-  templateUrl: './users.component.html',
-  styleUrl: './users.component.sass'
+    selector: 'app-users',
+    imports: [
+        CardComponent,
+        DataTableCustomComponent,
+        MatButton
+    ],
+    templateUrl: './users.component.html',
+    styleUrl: './users.component.sass'
 })
 export class UsersComponent {
   @ViewChild(DataTableCustomComponent) childDataTable!: DataTableCustomComponent

@@ -26,6 +26,7 @@
   overflow: hidden
 
 .task-card
+  overflow: hidden
   height: 75px
   padding: 20px 10px
   border-bottom: solid 1px #ccc
@@ -35,7 +36,7 @@
   align-items: center
   justify-content: space-between
   box-sizing: border-box
-  cursor: move
+  cursor: pointer
   background: white
   font-size: 14px
 
@@ -50,7 +51,7 @@
 .task-card:last-child
   border: none
 
-.task-list.cdk-drop-list-dragging .task-cardtask-card:not(.cdk-drag-placeholder)
+.task-list.cdk-drop-list-dragging .task-card:not(.cdk-drag-placeholder)
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1)
 
 .task-card-placeholder

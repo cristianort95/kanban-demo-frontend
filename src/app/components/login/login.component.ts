@@ -8,13 +8,12 @@ import {Router} from "@angular/router";
 import {ToastrService} from "ngx-toastr";
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
-  imports: [
-    FormComponent
-  ],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.sass'
+    selector: 'app-login',
+    imports: [
+        FormComponent
+    ],
+    templateUrl: './login.component.html',
+    styleUrl: './login.component.sass'
 })
 export class LoginComponent {
   @ViewChild(FormComponent) child!: FormComponent

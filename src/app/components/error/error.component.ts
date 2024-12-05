@@ -1,11 +1,10 @@
 import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
 
 @Component({
-  selector: 'app-error',
-  standalone: true,
-  imports: [],
-  templateUrl: './error.component.html',
-  styleUrl: './error.component.sass'
+    selector: 'app-error',
+    imports: [],
+    templateUrl: './error.component.html',
+    styleUrl: './error.component.sass'
 })
 export class ErrorComponent implements AfterViewInit {
   @ViewChild('visor') visor?: ElementRef<HTMLCanvasElement>;
