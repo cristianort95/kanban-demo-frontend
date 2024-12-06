@@ -28,8 +28,8 @@ export class CommentComponent implements OnDestroy {
   @Input() set itemValue(value: FieldsComments | undefined) {
     this.item.set(value)
     if (value && value.id) {
-      this.form.controls.editorContent.setValue(value!.comment)
-      this.form.controls['editorContent'].disable();
+      this.form.controls.editorContent.setValue(JSON.parse(value!.comment))
+      //this.form.controls['editorContent'].disable();
     }
   }
   @Input() set urlRequest(value: string) { this.url.set(value)}
@@ -39,7 +39,10 @@ export class CommentComponent implements OnDestroy {
   item = signal<FieldsComments | undefined>(undefined)
   url = signal<string>("")
   form = new FormGroup({
-    editorContent: new FormControl('', [Validators.required]),
+    editorContent: new FormControl({
+      type: 'doc',
+      content: []
+    }),
   });
   editor: Editor;
   toolbar: Toolbar = TOOLBAR_MINIMAL;
@@ -81,9 +84,10 @@ export class CommentComponent implements OnDestroy {
     console.log("id", id)
   }
   async onCreate(status: boolean) {
+    const value = this.form.get("editorContent") as AbstractControl
     if (this.form.get("editorContent")!.value) {
       this.spinner.show("create").then()
-      this.service.post(`${this.url()}`, {comment:  this.form.get("editorContent")!.value}).subscribe((response: any) => {
+      this.service.post(`${this.url()}`, {comment:  JSON.stringify(this.form.get("editorContent")!.value)}).subscribe((response: any) => {
         this.spinner.hide("create").then()
         this.toastr.success("Tarea Agregada");
         window.location.reload()

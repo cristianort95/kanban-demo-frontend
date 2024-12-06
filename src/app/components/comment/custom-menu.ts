@@ -14,7 +14,7 @@ import {FieldsComments} from "../../core/models/FieldsFormGroup";
 @Component({
   selector: 'app-custom-menu',
   standalone: true,
-  imports: [CommonModule, MatButton, MatIcon, MatIconButton],
+  imports: [CommonModule, MatIcon, MatIconButton],
   template: `
     <div class="NgxEditor__Seperator"></div>
     <div
