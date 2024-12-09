@@ -51,6 +51,7 @@ export class ProjectsComponent implements OnInit {
   fields: FieldsFormGroup[] = [
     {name: "name", label: "Nombre", type: "input", validator: [Validators.required]},
     {name: "description", label: "Descripcion", type: "input", validator: [Validators.required]},
+    {name: "endDate", label: "Fecha de vencimiento", type: "date", validator: [Validators.required]},
     {name: "status", label: "Estatus", type: "select", validator: [Validators.required], optionsChild: [
         {label: "Por hacer", value: "toDo"},
         {label: "En Progreso", value: "inProgress"},

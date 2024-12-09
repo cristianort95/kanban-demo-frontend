@@ -1,5 +1,11 @@
 
 <ng-container [formGroup]="form" *ngIf="field() as field" [ngSwitch]="field.type">
+  <mat-form-field *ngSwitchCase="'date'">
+    <mat-label>{{field.label}}</mat-label>
+    <input [attr.index-custom]="'input' + i" matInput [formControlName]="field.name" [matDatepicker]="picker" placeholder="Start" formControlName="date">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
   <mat-form-field *ngSwitchCase="'input'">
     <mat-label>{{field.label}}</mat-label>
     <input [attr.index-custom]="'input' + i" matInput [formControlName]="field.name">

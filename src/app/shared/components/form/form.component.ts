@@ -68,6 +68,7 @@ export class FormComponent implements OnInit {
       } else fieldsOptions.push(d[i])
     }
 
+    console.log("fieldsOptions", fieldsOptions)
     this.fields.set(fieldsOptions)
     this.initForm()
   }
