@@ -75,6 +75,8 @@ export class ProjectsComponent implements OnInit {
   inProgress: Task[] = [];
   done : Task[] = [];
 
+  dateToday = new Date();
+
   ngOnInit(): void {
     this.route.params.subscribe((params: any) => {
         this.projectId = params.projectId;
@@ -209,5 +211,14 @@ export class ProjectsComponent implements OnInit {
 
   async delay(ms: number) {
     return new Promise( resolve => setTimeout(resolve, ms) );
+  }
+
+  validDate(date?: string) {
+    if (date) {
+      const d = new Date(date);
+      if (d.getTime() < this.dateToday.getTime())
+        return true
+    }
+    return false
   }
 }
